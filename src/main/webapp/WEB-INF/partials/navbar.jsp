@@ -29,5 +29,4 @@
             </c:choose>
         </div>
     </div>
-    </div>
 </nav>
