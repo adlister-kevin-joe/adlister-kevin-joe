@@ -92,6 +92,20 @@ public class MySQLAdsDao implements Ads {
         }
     }
 
+    @Override
+    public List<Ad> searchForAdsByCategory(String category) {
+        PreparedStatement stmt = null;
+        try {
+            stmt = connection.prepareStatement("SELECT * FROM ymir_joe.ads a WHERE a.category_id IN (SELECT c.category_id FROM ymir_joe.categories c WHERE c.category = ?)");
+            stmt.setString(1, category);
+            ResultSet rs = stmt.executeQuery();
+            return createAdsFromResults(rs);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     private Ad extractAd(ResultSet rs) throws SQLException {
         return new Ad(
             rs.getLong("ad_id"),
