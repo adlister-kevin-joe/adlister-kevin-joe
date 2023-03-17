@@ -33,6 +33,11 @@ public class ListAdsDao implements Ads {
     }
 
     @Override
+    public List<Ad> searchForAds(String searchInput) {
+        return null;
+    }
+
+    @Override
     public Ad findByAdId(String id) {
         return null;
     }
