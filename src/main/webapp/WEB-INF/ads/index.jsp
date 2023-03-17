@@ -20,6 +20,7 @@
             <a href="http://localhost:8080/ads/showad?id=${ad.id}&uid=${ad.userId}">See Ad</a>
         </div>
     </c:forEach>
+
 </div>
 
 </body>

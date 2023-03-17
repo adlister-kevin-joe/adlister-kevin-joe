@@ -14,7 +14,15 @@
     <div class="container">
         <div id="categories" class="row">
 
-            <a href="/category?category=Appliances"><div class="category col-6">Appliances</div></a>
+            <c:forEach var="categories" items="${categories}">
+                <div class="col-md-6">
+                    <h2><a href="http://localhost:8080/ads/showad?id=${ad.id}&uid=${ad.userId}">${ad.title}</a></h2>
+                    <p><a href="http://localhost:8080/ads/showad?id=${ad.id}&uid=${ad.userId}">${ad.description}</a></p>
+                    <a href="http://localhost:8080/ads/showad?id=${ad.id}&uid=${ad.userId}">See Ad</a>
+                </div>
+            </c:forEach>
+
+            <a href="/category"><div class="category col-6">Appliances</div></a>
             <a href="/category?category=Clothing"><div class="category col-6">Clothing</div></a>
             <a href="/category?category=Collectibles"><div class="category col-6">Collectibles</div></a>
             <a href="/category?category=Electronics"><div class="category col-6">Electronics</div></a>
