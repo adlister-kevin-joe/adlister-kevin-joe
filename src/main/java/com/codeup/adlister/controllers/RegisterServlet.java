@@ -1,6 +1,7 @@
 package com.codeup.adlister.controllers;
 
 import com.codeup.adlister.dao.DaoFactory;
+import com.codeup.adlister.models.Ad;
 import com.codeup.adlister.models.User;
 import com.codeup.adlister.util.Password;
 
@@ -13,7 +14,13 @@ import java.io.IOException;
 
 @WebServlet(name = "controllers.RegisterServlet", urlPatterns = "/register")
 public class RegisterServlet extends HttpServlet {
+
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if (request.getSession().getAttribute("errDisplay") == "") {
+            request.getSession().setAttribute("errDisplay", "");
+        } else {
+            request.getSession().setAttribute("errDisplay", "none");
+        }
         request.getRequestDispatcher("/WEB-INF/register.jsp").forward(request, response);
     }
 
@@ -22,6 +29,9 @@ public class RegisterServlet extends HttpServlet {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         String passwordConfirmation = request.getParameter("confirm_password");
+
+        request.getSession().setAttribute("stickyUsername", username);
+        request.getSession().setAttribute("stickyEmail", email);
 
         // validate input
         boolean inputHasErrors = username.isEmpty()
@@ -36,9 +46,17 @@ public class RegisterServlet extends HttpServlet {
 
         password = Password.hash(password);
 
-        // create and save a new user
-        User user = new User(username, email, password);
-        DaoFactory.getUsersDao().insert(user);
-        response.sendRedirect("/login");
+        try {
+            // create and save a new user
+            User user = new User(username, email, password);
+            DaoFactory.getUsersDao().insert(user);
+            response.sendRedirect("/login");
+        } catch (Exception e) {
+            User userExists = new User(username, email, password);
+            request.getSession().setAttribute("userExists", userExists);
+            request.getSession().setAttribute("errDisplay", "");
+            response.sendRedirect("/register");
+        }
+
     }
 }

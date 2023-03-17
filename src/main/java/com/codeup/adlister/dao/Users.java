@@ -9,4 +9,5 @@ public interface Users {
     Long insert(User user);
     List<User> all();
     User findByUserId(String uid);
+    User findByEmail(String email);
 }
