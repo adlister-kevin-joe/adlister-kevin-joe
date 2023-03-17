@@ -13,4 +13,6 @@ public interface Ads {
     List<Ad> usersAds(Long userID);
 
     List<Ad> searchForAds(String searchInput);
+
+    Ad findByAdId(String id);
 }
