@@ -15,4 +15,6 @@ public interface Ads {
     List<Ad> searchForAds(String searchInput);
 
     Ad findByAdId(String id);
+
+    List<Ad> searchForAdsByCategory(String category);
 }
