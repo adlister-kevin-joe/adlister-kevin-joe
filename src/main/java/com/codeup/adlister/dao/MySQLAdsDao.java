@@ -24,7 +24,7 @@ public class MySQLAdsDao implements Ads {
 
     @Override
     public Ad findByAdId(String id) {
-        String query = "SELECT * FROM ads WHERE ad_id = ? LIMIT 1";
+        String query = "SELECT * FROM ymir_joe.ads WHERE ad_id = ? LIMIT 1";
         try {
             PreparedStatement stmt = connection.prepareStatement(query);
             stmt.setString(1, id);
@@ -75,6 +75,20 @@ public class MySQLAdsDao implements Ads {
             return rs.getLong(1);
         } catch (SQLException e) {
             throw new RuntimeException("Error creating a new ad.", e);
+        }
+    }
+
+    @Override
+    public List<Ad> searchForAds(String searchInput) {
+        PreparedStatement stmt = null;
+        try {
+            stmt = connection.prepareStatement("SELECT * FROM ymir_joe.ads ads WHERE ads.title LIKE ? OR ads.description LIKE ?");
+            stmt.setString(1, "%" + searchInput + "%");
+            stmt.setString(2, "%" + searchInput + "%");
+            ResultSet rs = stmt.executeQuery();
+            return createAdsFromResults(rs);
+        } catch (SQLException e) {
+            throw new RuntimeException("Error retrieving all ads.", e);
         }
     }
 
