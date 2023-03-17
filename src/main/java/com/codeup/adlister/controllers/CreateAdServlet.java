@@ -23,6 +23,13 @@ public class CreateAdServlet extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+        String title = request.getParameter("title");
+        String description = request.getParameter("description");
+
+        request.getSession().setAttribute("stickyTitle", title);
+        request.getSession().setAttribute("stickyDescription", description);
+
         if (request.getSession().getAttribute("user") == null) {
             response.sendRedirect("/login");
             return;

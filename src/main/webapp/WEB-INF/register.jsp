@@ -11,12 +11,13 @@
         <h1>Please fill in your information.</h1>
         <form action="/register" method="post">
             <div class="form-group">
+                <h3 style="display: ${errDisplay}; color: red;">User name ${sessionScope.userExists.username} already exists.</h3>
                 <label for="username">Username</label>
-                <input id="username" name="username" class="form-control" type="text">
+                <input id="username" name="username" class="form-control" type="text" value="${sessionScope.stickyUsername}">
             </div>
             <div class="form-group">
                 <label for="email">Email</label>
-                <input id="email" name="email" class="form-control" type="text">
+                <input id="email" name="email" class="form-control" type="text" value="${sessionScope.stickyEmail}">
             </div>
             <div class="form-group">
                 <label for="password">Password</label>
