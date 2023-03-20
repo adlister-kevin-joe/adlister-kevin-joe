@@ -34,29 +34,43 @@ public class RegisterServlet extends HttpServlet {
         request.getSession().setAttribute("stickyEmail", email);
 
         // validate input
-        boolean inputHasErrors = username.isEmpty()
-            || email.isEmpty()
-            || password.isEmpty()
-            || (! password.equals(passwordConfirmation));
+//        boolean inputHasErrors = username.isEmpty()
+//            || email.isEmpty()
+//            || password.isEmpty()
+//            || (! password.equals(passwordConfirmation));
 
-        if (inputHasErrors) {
+//        if (inputHasErrors) {
+//            response.sendRedirect("/register");
+//            return;
+//        }
+
+        User userNameCheck = DaoFactory.getUsersDao().findByUsername(username);
+
+        request.getSession().setAttribute("userExists", "");
+        request.getSession().setAttribute("passwordMismatch", "");
+
+        if (userNameCheck != null) {
+            request.getSession().setAttribute("userExists", "is-invalid");
+        }
+
+        if (! password.equals(passwordConfirmation)) {
+            request.getSession().setAttribute("passwordMismatch", "is-invalid");
+        }
+
+        if ((userNameCheck != null) || (! password.equals(passwordConfirmation))) {
             response.sendRedirect("/register");
-            return;
         }
 
         password = Password.hash(password);
 
-        try {
+//        try {
             // create and save a new user
             User user = new User(username, email, password);
             DaoFactory.getUsersDao().insert(user);
+            request.getSession().setAttribute("userExists", "");
             response.sendRedirect("/login");
-        } catch (Exception e) {
-            User userExists = new User(username, email, password);
-            request.getSession().setAttribute("userExists", userExists);
-            request.getSession().setAttribute("errDisplay", "");
-            response.sendRedirect("/register");
-        }
+//        } catch (Exception e) {
+//        }
 
     }
 }
