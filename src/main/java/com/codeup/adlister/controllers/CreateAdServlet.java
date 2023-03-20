@@ -33,10 +33,11 @@ public class CreateAdServlet extends HttpServlet {
         session.setAttribute("stickyDescription", description);
 
         if (session.getAttribute("user") == null) {
+            session.setAttribute("intended-redirect", "ads/create");
             response.sendRedirect("/login");
             return;
         }
-
+        session.removeAttribute("intended-redirect");
         User currentUser = (User) session.getAttribute("user");
         Ad ad = new Ad(
                 currentUser.getId(),

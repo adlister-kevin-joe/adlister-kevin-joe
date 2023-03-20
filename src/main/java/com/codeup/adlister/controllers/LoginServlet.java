@@ -41,8 +41,12 @@ public class LoginServlet extends HttpServlet {
         boolean validAttempt = Password.check(password, user.getPassword());
 
         if (validAttempt) {
-            session.setAttribute("errInvalidUsernamePassword", "");
             session.setAttribute("user", user);
+            if (session.getAttribute("intended-redirect") != null) {
+                response.sendRedirect("/" + session.getAttribute("intended-redirect"));
+                return;
+            }
+            session.setAttribute("errInvalidUsernamePassword", "");
             response.sendRedirect("/profile");
         } else {
             session.setAttribute("errInvalidUsernamePassword", "is-invalid");
