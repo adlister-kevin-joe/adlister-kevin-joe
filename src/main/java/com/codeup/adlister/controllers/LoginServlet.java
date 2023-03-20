@@ -9,12 +9,14 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @WebServlet(name = "controllers.LoginServlet", urlPatterns = "/login")
 public class LoginServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (request.getSession().getAttribute("user") != null) {
+        HttpSession session = request.getSession();
+        if (session.getAttribute("user") != null) {
             response.sendRedirect("/profile");
             return;
         }
@@ -22,15 +24,16 @@ public class LoginServlet extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        HttpSession session = request.getSession();
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
-        request.getSession().setAttribute("stickyUsername", username);
+        session.setAttribute("stickyUsername", username);
 
         User user = DaoFactory.getUsersDao().findByUsername(username);
 
         if (user == null) {
-            request.getSession().setAttribute("errInvalidUsernamePassword", "is-invalid");
+            session.setAttribute("errInvalidUsernamePassword", "is-invalid");
             response.sendRedirect("/login");
             return;
         }
@@ -38,11 +41,11 @@ public class LoginServlet extends HttpServlet {
         boolean validAttempt = Password.check(password, user.getPassword());
 
         if (validAttempt) {
-            request.getSession().setAttribute("errInvalidUsernamePassword", "");
-            request.getSession().setAttribute("user", user);
+            session.setAttribute("errInvalidUsernamePassword", "");
+            session.setAttribute("user", user);
             response.sendRedirect("/profile");
         } else {
-            request.getSession().setAttribute("errInvalidUsernamePassword", "is-invalid");
+            session.setAttribute("errInvalidUsernamePassword", "is-invalid");
             response.sendRedirect("/login");
         }
     }
