@@ -22,6 +22,7 @@
     </div>
   </c:forEach>
 </div>
+<jsp:include page="/WEB-INF/partials/bootstrap_js.jsp" />
 
 </body>
 </html>
