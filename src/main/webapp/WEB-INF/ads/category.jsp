@@ -10,8 +10,9 @@
 <body>
 <jsp:include page="/WEB-INF/partials/navbar.jsp" />
 
-<div class="container">
-  <h1>Here Are The Ads for: "<c:out value="${category}" />"</h1>
+<h1>Here Are The Ads for: "<c:out value="${category}" />"</h1>
+
+<div class="container d-flex flex-wrap">
 
   <c:forEach var="ad" items="${ads}">
     <div class="col-md-6">

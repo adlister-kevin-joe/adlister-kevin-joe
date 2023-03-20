@@ -2,7 +2,6 @@ package com.codeup.adlister.dao;
 
 import com.codeup.adlister.models.User;
 import com.mysql.cj.jdbc.Driver;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +48,7 @@ public class MySQLUsersDao implements Users {
 
     @Override
     public User findByUserId(String id) {
-        String query = "SELECT * FROM adlister_users WHERE user_id = ? LIMIT 1";
+        String query = "SELECT * FROM ymir_joe.adlister_users WHERE user_id = ? LIMIT 1";
         try {
             PreparedStatement stmt = connection.prepareStatement(query);
             stmt.setString(1, id);
@@ -80,7 +79,7 @@ public class MySQLUsersDao implements Users {
     public List<User> all() {
         PreparedStatement stmt = null;
         try {
-            stmt = connection.prepareStatement("SELECT * FROM adlister_users");
+            stmt = connection.prepareStatement("SELECT * FROM ymir_joe.adlister_users");
             ResultSet rs = stmt.executeQuery();
             return createUsersFromResults(rs);
         } catch (SQLException e) {

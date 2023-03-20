@@ -1,10 +1,28 @@
 <style>
+
+    body {
+        background-color: lightgray;
+    }
+
     .category {
-        width: 300px;
-        background-color: yellow;
+        color: black;
+        font-size: x-large;
+        background-color: lightblue;
         border: black solid 5px;
-        padding: 50px;
-        margin: 0;
+        margin: 25px;
+        padding: 25px;
+    }
+
+    .category:nth-child(3n) {
+        background-color: lightcoral;
+    }
+
+    .category:nth-child(3n + 1) {
+        background-color: lightgoldenrodyellow;
+    }
+
+    .category:hover {
+        color: darkblue;
     }
 
 </style>

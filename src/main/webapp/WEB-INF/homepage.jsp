@@ -11,22 +11,17 @@
 <div class="container">
     <h1>Welcome to the Adlister!</h1>
 
-    <div class="container">
-        <div id="categories" class="row">
-
-            <a href="/category?category=Appliances"><div class="category col-6">Appliances</div></a>
-            <a href="/category?category=Clothing"><div class="category col-6">Clothing</div></a>
-            <a href="/category?category=Collectibles"><div class="category col-6">Collectibles</div></a>
-            <a href="/category?category=Electronics"><div class="category col-6">Electronics</div></a>
-            <a href="/category?category=Furniture"><div class="category col-6">Furniture</div></a>
-            <a href="/category?category=Home & Garden"><div class="category col-6">Home & Garden</div></a>
-            <a href="/category?category=Jewelry & Wathces"><div class="category col-6">Jewelry & Wathces</div></a>
-            <a href="/category?category=Sporting Goods"><div class="category col-6">Sporting Goods</div></a>
-            <a href="/category?category=Toys"><div class="category col-6">Toys</div></a>
-
+    <div class="container-fluid mx-auto">
+        <div class="row">
+            <c:forEach var="category" items="${categories}">
+                <a href="/category?category=${category.category}" class="col-5 category text-center">
+                    <div>
+                            ${category.category}
+                    </div>
+                </a>
+            </c:forEach>
         </div>
     </div>
-
 
 </div>
 </div>
