@@ -9,32 +9,37 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @WebServlet(name = "controllers.CreateAdServlet", urlPatterns = "/ads/create")
 public class CreateAdServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (request.getSession().getAttribute("user") == null) {
+        HttpSession session = request.getSession();
+
+        if (session.getAttribute("user") == null) {
+            session.setAttribute("intended-redirect", "ads/create");
             response.sendRedirect("/login");
             return;
         }
-        request.getRequestDispatcher("/WEB-INF/ads/create.jsp")
-                .forward(request, response);
+        session.removeAttribute("intended-redirect");
+        request.getRequestDispatcher("/WEB-INF/ads/create.jsp").forward(request, response);
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        HttpSession session = request.getSession();
 
         String title = request.getParameter("title");
         String description = request.getParameter("description");
 
-        request.getSession().setAttribute("stickyTitle", title);
-        request.getSession().setAttribute("stickyDescription", description);
+        session.setAttribute("stickyTitle", title);
+        session.setAttribute("stickyDescription", description);
 
-        if (request.getSession().getAttribute("user") == null) {
+        if (session.getAttribute("user") == null) {
             response.sendRedirect("/login");
             return;
         }
-        User currentUser = (User) request.getSession().getAttribute("user");
+        User currentUser = (User) session.getAttribute("user");
         Ad ad = new Ad(
                 currentUser.getId(),
                 request.getParameter("title"),
