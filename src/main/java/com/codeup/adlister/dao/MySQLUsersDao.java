@@ -76,6 +76,21 @@ public class MySQLUsersDao implements Users {
     }
 
     @Override
+    public void updateUser(User user) {
+        try {
+            PreparedStatement stmt = connection.prepareStatement("UPDATE ymir_joe.adlister_users SET user_name = ?, email = ?, password = ? WHERE user_id = ?");
+            stmt.setString(1, user.getUsername());
+            stmt.setString(2, user.getEmail());
+            stmt.setString(3, user.getPassword());
+            stmt.setLong(4, user.getId());
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Error updating a user.");
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public List<User> all() {
         PreparedStatement stmt = null;
         try {
