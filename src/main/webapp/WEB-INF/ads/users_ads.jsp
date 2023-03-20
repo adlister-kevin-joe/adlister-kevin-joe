@@ -11,13 +11,17 @@
 
 <div class="container">
     <h1>My Ads</h1>
+    <form action="/myads" method="post">
 
     <c:forEach var="ad" items="${ads}">
         <div class="col-md-6">
             <h2>${ad.title}</h2>
             <p>${ad.description}</p>
+            <button type="submit" name="button" class="btn btn-outline-secondary" value="edit${ad.id}" >Edit</button>
+            <button type="submit" name="button" class="btn btn-outline-secondary" value="delete${ad.id}">Delete</button>
         </div>
     </c:forEach>
+    </form>
 </div>
 <jsp:include page="/WEB-INF/partials/bootstrap_js.jsp" />
 </body>

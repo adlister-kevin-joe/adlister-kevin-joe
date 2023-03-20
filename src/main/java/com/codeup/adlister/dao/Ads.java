@@ -9,6 +9,8 @@ public interface Ads {
 
     Long insert(Ad ad);
 
+    Long updateAd(Ad ad);
+
     List<Ad> usersAds(Long userID);
 
     List<Ad> searchForAds(String searchInput);
@@ -16,4 +18,6 @@ public interface Ads {
     Ad findByAdId(String id);
 
     List<Ad> searchForAdsByCategory(String category);
+
+    Ad deleteByAdId(String adID);
 }
