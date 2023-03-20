@@ -16,13 +16,10 @@ import java.io.IOException;
 public class CreateAdServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-
         if (session.getAttribute("user") == null) {
-            session.setAttribute("intended-redirect", "ads/create");
             response.sendRedirect("/login");
             return;
         }
-        session.removeAttribute("intended-redirect");
         request.getRequestDispatcher("/WEB-INF/ads/create.jsp").forward(request, response);
     }
 
@@ -36,9 +33,11 @@ public class CreateAdServlet extends HttpServlet {
         session.setAttribute("stickyDescription", description);
 
         if (session.getAttribute("user") == null) {
+            session.setAttribute("intended-redirect", "ads/create");
             response.sendRedirect("/login");
             return;
         }
+        session.removeAttribute("intended-redirect");
         User currentUser = (User) session.getAttribute("user");
         Ad ad = new Ad(
                 currentUser.getId(),

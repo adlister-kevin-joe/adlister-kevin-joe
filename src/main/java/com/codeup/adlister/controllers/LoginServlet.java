@@ -33,6 +33,7 @@ public class LoginServlet extends HttpServlet {
         User user = DaoFactory.getUsersDao().findByUsername(username);
 
         if (user == null) {
+            session.setAttribute("errInvalidUsernamePassword", "is-invalid");
             response.sendRedirect("/login");
             return;
         }
@@ -45,8 +46,10 @@ public class LoginServlet extends HttpServlet {
                 response.sendRedirect("/" + session.getAttribute("intended-redirect"));
                 return;
             }
+            session.setAttribute("errInvalidUsernamePassword", "");
             response.sendRedirect("/profile");
         } else {
+            session.setAttribute("errInvalidUsernamePassword", "is-invalid");
             response.sendRedirect("/login");
         }
     }

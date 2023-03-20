@@ -9,15 +9,32 @@
     <jsp:include page="/WEB-INF/partials/navbar.jsp" />
     <div class="container">
         <h1>Create a new Ad</h1>
-        <form action="/ads/create" method="post">
-            <div class="form-group">
-                <label for="title">Title</label>
-                <input id="title" name="title" class="form-control" type="text" value="${sessionScope.stickyTitle}">
+        <form class="column g-3" action="/ads/create" method="post">
+
+            <div class="col-md-4 w-100">
+                <label for="validationServerTitle" class="form-label">Title</label>
+                <div class="input-group has-validation w-100">
+                    <input name="title" type="text" class="input-group w-100 form-control" value="${sessionScope.stickyTitle}" id="validationServerTitle" required>
+                    <div id="validationServerTitleFeedback" class="invalid-feedback">
+                        Please provide a title.
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="description">Description</label>
-                <textarea id="description" name="description" class="form-control" type="text">${sessionScope.stickyDescription}</textarea>
+
+            <br>
+
+            <div class="col-md-4 w-100">
+                <label for="validationServerDescription" class="form-label">Description</label>
+                <div class="input-group has-validation w-100">
+                    <textarea name="description" class="form-control w-100" id="validationServerDescription" required>${sessionScope.stickyDescription}</textarea>
+                    <div id="validationServerDescriptionFeedback" class="invalid-feedback">
+                        Please provide a Description.
+                    </div>
+                </div>
             </div>
+
+            <br>
+
             <input type="submit" class="btn btn-block btn-primary">
         </form>
     </div>
