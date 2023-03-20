@@ -34,6 +34,7 @@ public class CreateAdServlet extends HttpServlet {
             response.sendRedirect("/login");
             return;
         }
+
         User currentUser = (User) request.getSession().getAttribute("user");
         Ad ad = new Ad(
                 currentUser.getId(),
