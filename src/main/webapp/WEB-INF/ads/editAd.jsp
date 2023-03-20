@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %><html>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<html>
 <head>
     <jsp:include page="/WEB-INF/partials/head.jsp">
         <jsp:param name="title" value="Viewing All The Ads" />
@@ -32,6 +33,21 @@
                 <div id="validationServerDescriptionFeedback" class="invalid-feedback">
                     Please provide a Description.
                 </div>
+            </div>
+        </div>
+
+        <br>
+
+        <div class="col-md-4">
+            <label for="validationServerCategory" class="form-label">Category</label>
+            <select class="form-select" name="categoryId" id="validationServerCategory" required>
+                <option selected disabled value="">Choose...</option>
+                <c:forEach var="category" items="${categories}">
+                    <option value="${category.categoryID}">${category.category}</option>
+                </c:forEach>
+            </select>
+            <div id="validationServerCategoryFeedback" class="invalid-feedback">
+                Please select a category.
             </div>
         </div>
 

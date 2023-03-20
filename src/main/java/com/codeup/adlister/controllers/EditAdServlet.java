@@ -18,9 +18,11 @@ public class EditAdServlet extends HttpServlet {
 
         String title = request.getParameter("title");
         String description = request.getParameter("description");
+        long categoryId = Long.parseLong(request.getParameter("categoryId"));
 
         request.getSession().setAttribute("stickyEditTitle", title);
         request.getSession().setAttribute("stickyEditDescription", description);
+        request.getSession().setAttribute("stickyCategory", categoryId);
 
         if (request.getSession().getAttribute("user") == null) {
             response.sendRedirect("/login");
@@ -33,8 +35,9 @@ public class EditAdServlet extends HttpServlet {
         Ad ad = new Ad(
                 editAd.getId(),
                 currentUser.getId(),
-                request.getParameter("title"),
-                request.getParameter("description")
+                title,
+                description,
+                categoryId
         );
         DaoFactory.getAdsDao().updateAd(ad);
         response.sendRedirect("/myads");

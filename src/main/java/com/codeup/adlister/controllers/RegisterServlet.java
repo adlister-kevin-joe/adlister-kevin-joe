@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static com.codeup.adlister.util.Validate.isValid;
+
 @WebServlet(name = "controllers.RegisterServlet", urlPatterns = "/register")
 public class RegisterServlet extends HttpServlet {
 
@@ -47,30 +49,36 @@ public class RegisterServlet extends HttpServlet {
         User userNameCheck = DaoFactory.getUsersDao().findByUsername(username);
 
         request.getSession().setAttribute("userExists", "");
+        request.getSession().setAttribute("emailIsInvalid", "");
         request.getSession().setAttribute("passwordMismatch", "");
 
         if (userNameCheck != null) {
             request.getSession().setAttribute("userExists", "is-invalid");
         }
 
+        if (!isValid(email)) {
+            request.getSession().setAttribute("emailIsInvalid", "is-invalid");
+        }
+
         if (! password.equals(passwordConfirmation)) {
             request.getSession().setAttribute("passwordMismatch", "is-invalid");
         }
 
-        if ((userNameCheck != null) || (! password.equals(passwordConfirmation))) {
+        if ((userNameCheck != null) || (! password.equals(passwordConfirmation)) || (!isValid(email))) {
             response.sendRedirect("/register");
+            return;
         }
 
         password = Password.hash(password);
 
-//        try {
+        try {
             // create and save a new user
             User user = new User(username, email, password);
             DaoFactory.getUsersDao().insert(user);
             request.getSession().setAttribute("userExists", "");
             response.sendRedirect("/login");
-//        } catch (Exception e) {
-//        }
+        } catch (Exception e) {
+        }
 
     }
 }
