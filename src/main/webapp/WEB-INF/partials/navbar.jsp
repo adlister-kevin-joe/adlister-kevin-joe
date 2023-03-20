@@ -26,10 +26,11 @@
                                 Profile
                             </a>
                             <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="/profile">My Account</a></li>
                                 <li><a class="dropdown-item" href="/myads">My Ads</a></li>
                                 <li><a class="dropdown-item" href="/ads/create">Create an Ad</a></li>
                                 <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="/profile">My Account</a></li>
+                                <li><a class="dropdown-item" href="/logout">Logout</a></li>
                             </ul>
                         </li>
                     </c:otherwise>
