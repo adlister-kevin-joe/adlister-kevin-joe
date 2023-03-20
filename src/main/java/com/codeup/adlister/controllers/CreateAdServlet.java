@@ -18,17 +18,21 @@ public class CreateAdServlet extends HttpServlet {
             response.sendRedirect("/login");
             return;
         }
-        request.getRequestDispatcher("/WEB-INF/ads/create.jsp")
-                .forward(request, response);
+
+        request.setAttribute("categories", DaoFactory.getCategoriesDao().all());
+
+        request.getRequestDispatcher("/WEB-INF/ads/create.jsp").forward(request, response);
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         String title = request.getParameter("title");
         String description = request.getParameter("description");
+        long categoryId = Long.parseLong(request.getParameter("categoryId"));
 
         request.getSession().setAttribute("stickyTitle", title);
         request.getSession().setAttribute("stickyDescription", description);
+        request.getSession().setAttribute("stickyCategory", categoryId);
 
         if (request.getSession().getAttribute("user") == null) {
             response.sendRedirect("/login");
@@ -36,11 +40,14 @@ public class CreateAdServlet extends HttpServlet {
         }
 
         User currentUser = (User) request.getSession().getAttribute("user");
+
         Ad ad = new Ad(
                 currentUser.getId(),
-                request.getParameter("title"),
-                request.getParameter("description")
+                title,
+                description,
+                categoryId
         );
+
         DaoFactory.getAdsDao().insert(ad);
         response.sendRedirect("/ads");
     }

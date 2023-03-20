@@ -29,6 +29,7 @@ public class ViewUsersAdsServlet extends HttpServlet {
 
         if (buttonClicked.contains("edit")) {
             Ad ad = DaoFactory.getAdsDao().findByAdId(adID);
+            request.setAttribute("categories", DaoFactory.getCategoriesDao().all());
             request.getSession().setAttribute("editAd", ad);
             request.getRequestDispatcher("/WEB-INF/ads/editAd.jsp").forward(request, response);
         } else {
