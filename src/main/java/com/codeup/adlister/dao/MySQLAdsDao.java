@@ -25,7 +25,7 @@ public class MySQLAdsDao implements Ads {
 
     @Override
     public Ad findByAdId(String id) {
-        String query = "SELECT * FROM ymir_joe.ads WHERE ad_id = ? LIMIT 1";
+        String query = "SELECT * FROM ads as a INNER JOIN categories AS c ON a.category_id = c.category_id WHERE ad_id = ? LIMIT 1";
         try {
             PreparedStatement stmt = connection.prepareStatement(query);
             stmt.setString(1, id);
@@ -41,7 +41,7 @@ public class MySQLAdsDao implements Ads {
     public List<Ad> all() {
         PreparedStatement stmt = null;
         try {
-            stmt = connection.prepareStatement("SELECT * FROM ymir_joe.ads");
+            stmt = connection.prepareStatement("SELECT a.ad_id, a.user_id, a.title, a.description, a.category_id, c.category FROM ads as a INNER JOIN categories AS c ON a.category_id = c.category_id");
             ResultSet rs = stmt.executeQuery();
             return createAdsFromResults(rs);
         } catch (SQLException e) {
@@ -53,7 +53,7 @@ public class MySQLAdsDao implements Ads {
     public List<Ad> usersAds(Long userID) {
         PreparedStatement stmt = null;
         try {
-            stmt = connection.prepareStatement("SELECT * FROM ymir_joe.ads ads INNER JOIN ymir_joe.adlister_users users ON ads.user_id = users.user_id WHERE ads.user_id = ?");
+            stmt = connection.prepareStatement("SELECT * FROM ads as a INNER JOIN adlister_users as u ON a.user_id = u.user_id INNER JOIN categories AS c ON a.category_id = c.category_id WHERE a.user_id = ?");
             stmt.setLong(1, userID);
             ResultSet rs = stmt.executeQuery();
             return createAdsFromResults(rs);
@@ -83,11 +83,12 @@ public class MySQLAdsDao implements Ads {
     @Override
     public Long updateAd(Ad ad) {
         try {
-            String insertQuery = "UPDATE ymir_joe.ads SET title = ?, description = ? WHERE ad_id = ?";
+            String insertQuery = "UPDATE ymir_joe.ads SET title = ?, description = ?, category_id = ? WHERE ad_id = ?";
             PreparedStatement stmt = connection.prepareStatement(insertQuery, Statement.RETURN_GENERATED_KEYS);
             stmt.setString(1, ad.getTitle());
             stmt.setString(2, ad.getDescription());
-            stmt.setLong(3, ad.getId());
+            stmt.setLong(3, ad.getCategoryId());
+            stmt.setLong(4, ad.getId());
             stmt.executeUpdate();
 //            ResultSet rs = stmt.getGeneratedKeys();
 //            rs.next();
@@ -114,7 +115,7 @@ public class MySQLAdsDao implements Ads {
     public List<Ad> searchForAds(String searchInput) {
         PreparedStatement stmt = null;
         try {
-            stmt = connection.prepareStatement("SELECT * FROM ymir_joe.ads ads WHERE ads.title LIKE ? OR ads.description LIKE ?");
+            stmt = connection.prepareStatement("SELECT a.ad_id, a.user_id, a.title, a.description, a.category_id, c.category FROM ads as a INNER JOIN categories AS c ON a.category_id = c.category_id WHERE a.title LIKE ? OR a.description LIKE ?");
             stmt.setString(1, "%" + searchInput + "%");
             stmt.setString(2, "%" + searchInput + "%");
             ResultSet rs = stmt.executeQuery();
@@ -128,7 +129,7 @@ public class MySQLAdsDao implements Ads {
     public List<Ad> searchForAdsByCategory(String category) {
         PreparedStatement stmt = null;
         try {
-            stmt = connection.prepareStatement("SELECT * FROM ymir_joe.ads a WHERE a.category_id IN (SELECT c.category_id FROM ymir_joe.categories c WHERE c.category = ?)");
+            stmt = connection.prepareStatement("SELECT a.ad_id, a.user_id, a.title, a.description, a.category_id, c.category FROM ads as a INNER JOIN categories AS c ON a.category_id = c.category_id WHERE c.category = ?");
             stmt.setString(1, category);
             ResultSet rs = stmt.executeQuery();
             return createAdsFromResults(rs);
@@ -144,7 +145,8 @@ public class MySQLAdsDao implements Ads {
             rs.getLong("user_id"),
             rs.getString("title"),
             rs.getString("description"),
-            rs.getLong("category_id")
+            rs.getLong("category_id"),
+            rs.getString("category")
         );
     }
 

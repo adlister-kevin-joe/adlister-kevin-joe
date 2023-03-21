@@ -20,4 +20,5 @@ public interface Ads {
     List<Ad> searchForAdsByCategory(String category);
 
     Ad deleteByAdId(String adID);
+
 }
