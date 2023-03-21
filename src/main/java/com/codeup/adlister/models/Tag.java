@@ -10,7 +10,4 @@ import lombok.*;
 public class Tag {
     private String tag;
     private Long tagID;
-
-
-
 }
