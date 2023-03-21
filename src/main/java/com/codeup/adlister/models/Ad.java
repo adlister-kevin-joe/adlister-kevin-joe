@@ -19,18 +19,20 @@ public class Ad {
     private String category;
     private List<Tag> tags;
 
-    public Ad(long id, long userId, String title, String description, long categoryId) {
+    public Ad(long id, long userId, String title, String description, long categoryId, List<Tag> tags) {
         this.id = id;
         this.userId = userId;
         this.title = title;
         this.description = description;
         this.categoryId = categoryId;
+        this.tags = tags;
     }
 
-    public Ad(long userId, String title, String description, long categoryId) {
+    public Ad(long userId, String title, String description, long categoryId, List<Tag> tags) {
         this.userId = userId;
         this.title = title;
         this.description = description;
         this.categoryId = categoryId;
+        this.tags = tags;
     }
 }

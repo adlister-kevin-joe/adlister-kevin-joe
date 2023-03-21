@@ -1,6 +1,7 @@
 package com.codeup.adlister.dao;
 
 import com.codeup.adlister.models.Ad;
+import com.codeup.adlister.models.Tag;
 import com.codeup.adlister.models.User;
 import com.mysql.cj.jdbc.Driver;
 import java.sql.*;
@@ -25,7 +26,7 @@ public class MySQLAdsDao implements Ads {
 
     @Override
     public Ad findByAdId(String id) {
-        String query = "SELECT * FROM ads as a INNER JOIN categories AS c ON a.category_id = c.category_id WHERE ad_id = ? LIMIT 1";
+        String query = "SELECT * FROM ymir_joe.ads as a INNER JOIN ymir_joe.categories AS c ON a.category_id = c.category_id WHERE ad_id = ? LIMIT 1";
         try {
             PreparedStatement stmt = connection.prepareStatement(query);
             stmt.setString(1, id);
@@ -37,14 +38,16 @@ public class MySQLAdsDao implements Ads {
         }
     }
 
+    // Use two queries, one to get the distinct ad_id's and another to get a result set for the tags per ad_id
     @Override
     public List<Ad> all() {
         PreparedStatement stmt = null;
         try {
-            stmt = connection.prepareStatement("SELECT a.ad_id, a.user_id, a.title, a.description, a.category_id, c.category FROM ads as a INNER JOIN categories AS c ON a.category_id = c.category_id");
+            stmt = connection.prepareStatement("SELECT a.ad_id, a.user_id, a.title, a.description, a.category_id, c.category, at.tag_id, t.tag FROM ads as a INNER JOIN categories AS c ON a.category_id = c.category_id INNER JOIN ad_tag AS at on a.ad_id = at.ad_id INNER JOIN tags AS t on at.tag_id = t.tag_id");
             ResultSet rs = stmt.executeQuery();
             return createAdsFromResults(rs);
         } catch (SQLException e) {
+            e.printStackTrace();
             throw new RuntimeException("Error retrieving all ads.", e);
         }
     }
@@ -53,12 +56,12 @@ public class MySQLAdsDao implements Ads {
     public List<Ad> usersAds(Long userID) {
         PreparedStatement stmt = null;
         try {
-            stmt = connection.prepareStatement("SELECT * FROM ads as a INNER JOIN adlister_users as u ON a.user_id = u.user_id INNER JOIN categories AS c ON a.category_id = c.category_id WHERE a.user_id = ?");
+            stmt = connection.prepareStatement("SELECT * FROM ymir_joe.ads as a INNER JOIN ymir_joe.adlister_users as u ON a.user_id = u.user_id INNER JOIN ymir_joe.categories AS c ON a.category_id = c.category_id WHERE a.user_id = ?");
             stmt.setLong(1, userID);
             ResultSet rs = stmt.executeQuery();
             return createAdsFromResults(rs);
         } catch (SQLException e) {
-            throw new RuntimeException("Error retrieving all ads.", e);
+            throw new RuntimeException("Error retrieving users ads.", e);
         }
     }
 
@@ -115,13 +118,13 @@ public class MySQLAdsDao implements Ads {
     public List<Ad> searchForAds(String searchInput) {
         PreparedStatement stmt = null;
         try {
-            stmt = connection.prepareStatement("SELECT a.ad_id, a.user_id, a.title, a.description, a.category_id, c.category FROM ads as a INNER JOIN categories AS c ON a.category_id = c.category_id WHERE a.title LIKE ? OR a.description LIKE ?");
+            stmt = connection.prepareStatement("SELECT a.ad_id, a.user_id, a.title, a.description, a.category_id, c.category FROM ymir_joe.ads as a INNER JOIN ymir_joe.categories AS c ON a.category_id = c.category_id WHERE a.title LIKE ? OR a.description LIKE ?");
             stmt.setString(1, "%" + searchInput + "%");
             stmt.setString(2, "%" + searchInput + "%");
             ResultSet rs = stmt.executeQuery();
             return createAdsFromResults(rs);
         } catch (SQLException e) {
-            throw new RuntimeException("Error retrieving all ads.", e);
+            throw new RuntimeException("Error searching for ads.", e);
         }
     }
 
@@ -129,7 +132,7 @@ public class MySQLAdsDao implements Ads {
     public List<Ad> searchForAdsByCategory(String category) {
         PreparedStatement stmt = null;
         try {
-            stmt = connection.prepareStatement("SELECT a.ad_id, a.user_id, a.title, a.description, a.category_id, c.category FROM ads as a INNER JOIN categories AS c ON a.category_id = c.category_id WHERE c.category = ?");
+            stmt = connection.prepareStatement("SELECT a.ad_id, a.user_id, a.title, a.description, a.category_id, c.category FROM ymir_joe.ads as a INNER JOIN ymir_joe.categories AS c ON a.category_id = c.category_id WHERE c.category = ?");
             stmt.setString(1, category);
             ResultSet rs = stmt.executeQuery();
             return createAdsFromResults(rs);
@@ -146,7 +149,8 @@ public class MySQLAdsDao implements Ads {
             rs.getString("title"),
             rs.getString("description"),
             rs.getLong("category_id"),
-            rs.getString("category")
+            rs.getString("category"),
+            (List<Tag>) rs.getArray("tag")
         );
     }
 

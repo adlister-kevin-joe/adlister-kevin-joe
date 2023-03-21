@@ -31,15 +31,15 @@ public class EditAdServlet extends HttpServlet {
 
         User currentUser = (User) request.getSession().getAttribute("user");
         Ad editAd = (Ad) request.getSession().getAttribute("editAd");
-
-        Ad ad = new Ad(
-                editAd.getId(),
-                currentUser.getId(),
-                title,
-                description,
-                categoryId
-        );
-        DaoFactory.getAdsDao().updateAd(ad);
+//
+//        Ad ad = new Ad(
+//                editAd.getId(),
+//                currentUser.getId(),
+//                title,
+//                description,
+//                categoryId
+//        );
+//        DaoFactory.getAdsDao().updateAd(ad);
         response.sendRedirect("/myads");
     }
 }
