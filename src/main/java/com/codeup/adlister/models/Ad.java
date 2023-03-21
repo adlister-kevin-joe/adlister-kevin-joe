@@ -3,6 +3,7 @@ package com.codeup.adlister.models;
 import lombok.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,6 +17,7 @@ public class Ad {
     private String description;
     private long categoryId;
     private String category;
+    private List<Tag> tags;
 
     public Ad(long id, long userId, String title, String description, long categoryId) {
         this.id = id;
