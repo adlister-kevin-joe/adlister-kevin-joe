@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @WebServlet(name = "controllers.CreateAdServlet", urlPatterns = "/ads/create")
@@ -31,7 +33,15 @@ public class CreateAdServlet extends HttpServlet {
         String title = request.getParameter("title");
         String description = request.getParameter("description");
         long categoryId = Long.parseLong(request.getParameter("categoryId"));
-        String[] tags = request.getParameter("tags").split(",");
+        String[] tagsStringArray = request.getParameter("tags").split(",");
+        for (String string : tagsStringArray) {
+        }
+        List<Tag> tags = new ArrayList<>();
+
+        for (String string : tagsStringArray) {
+            Tag newTag = new Tag(string);
+            tags.add(newTag);
+        }
 
         request.getSession().setAttribute("stickyTitle", title);
         request.getSession().setAttribute("stickyDescription", description);
@@ -49,10 +59,11 @@ public class CreateAdServlet extends HttpServlet {
                 currentUser.getId(),
                 title,
                 description,
-                categoryId
+                categoryId,
+                tags
         );
 
-        DaoFactory.getAdsDao().insert(ad);
+        DaoFactory.getTagsDao().insertIntoAdTagTable(ad, DaoFactory.getAdsDao().insert(ad));
         response.sendRedirect("/ads");
     }
 }
