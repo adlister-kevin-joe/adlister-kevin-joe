@@ -8,6 +8,9 @@
 </head>
 <body>
 <jsp:include page="/WEB-INF/partials/navbar.jsp"/>
+<jsp:include page="/WEB-INF/partials/change_username_modal.jsp"/>
+<jsp:include page="/WEB-INF/partials/change_email_modal.jsp"/>
+<jsp:include page="/WEB-INF/partials/change_password_modal.jsp"/>
 
 <div class="container">
     <h1>Welcome, ${sessionScope.user.username}!</h1>
@@ -42,68 +45,35 @@
                     <h5 class="card-header">Account</h5>
                     <div class="card-body">
 
-                        <form method="post" action="/profile/update">
-
-<%--                            <div class="mb-3">--%>
-<%--                                <label for="account-page-username" class="form-label">Username</label>--%>
-<%--                                <input name="form-username" value="${username}" type="text" class="form-control">--%>
-<%--                            </div>--%>
-
-                            <div class="mb-3">
-                                <label for="account-page-username" class="form-label">Username</label>
-                                <div class="input-group has-validation">
-                                    <input name="form-username" type="text" class="form-control ${userexists}" value="${username}" id="account-page-username" required>
-                                    <div class="invalid-feedback">
-                                        Username already exists.
-                                    </div>
-                                </div>
+                        <div class="mb-3 w-50 ms-5">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text">Username</span>
+                                <input type="text" class="form-control" value="${username}" disabled readonly>
                             </div>
 
-                            <div class="mb-3">
-                                <label for="account-page-username" class="form-label">Email</label>
-                                <input name="form-email" value="${email}" type="text" class="form-control"
-                                       id="account-page-email">
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                    data-bs-target="#change-username-modal">
+                                Change Username
+                            </button>
+                        </div>
+
+                        <div class="mb-3 w-50 ms-5">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text">Email</span>
+                                <input type="text" class="form-control" value="${email}" disabled readonly>
                             </div>
 
-                            <div class="mb-3">
-                                <label for="old-password" class="form-label">Old Password</label>
-                                <div class="input-group has-validation">
-                                    <input name="old-password" type="password" class="form-control ${incorrectpassword}"
-                                           id="old-password" required>
-                                    <div class="invalid-feedback">
-                                        Password is invalid.
-                                    </div>
-                                </div>
-                            </div>
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                    data-bs-target="#change-email-modal">
+                                Change Email
+                            </button>
+                        </div>
 
-                            <div class="mb-3">
-                                <label for="new-password" class="form-label">New Password</label>
-                                <div class="input-group has-validation">
-                                    <input name="form-password" type="password" class="form-control ${passwordmismatch}"
-                                           id="new-password" required>
-                                    <div class="invalid-feedback">
-                                    </div>
-                                </div>
-                            </div>
 
-                            <div class="mb-3">
-                                <label for="confirm-form-password" class="form-label">Confirm New Password</label>
-                                <div class="input-group has-validation">
-                                    <input name="confirm-form-password" type="password"
-                                           class="form-control ${passwordmismatch}" id="confirm-form-password" required>
-                                    <div id="validationServerConfirmPasswordFeedback" class="invalid-feedback">
-                                    </div>
-                                    <div id="validationServerEmailFeedback" class="invalid-feedback">
-                                        Passwords do not match, re-enter.
-                                    </div>
-                                </div>
-                            </div>
-
-                            <br>
-
-                            <button type="submit" class="btn btn-primary">Save</button>
-
-                        </form>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                data-bs-target="#change-password-modal">
+                            Change Password
+                        </button>
 
                     </div>
                 </div>
