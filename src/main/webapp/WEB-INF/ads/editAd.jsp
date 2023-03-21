@@ -43,7 +43,14 @@
             <select class="form-select" name="categoryId" id="validationServerCategory" required>
                 <option selected disabled value="">Choose...</option>
                 <c:forEach var="category" items="${categories}">
-                    <option value="${category.categoryID}">${category.category}</option>
+                    <c:choose>
+                        <c:when test="${category.categoryID == sessionScope.editAd.categoryId}">
+                            <option value="${category.categoryID}" selected>${category.category}</option>
+                        </c:when>
+                        <c:otherwise>
+                            <option value="${category.categoryID}">${category.category}</option>
+                        </c:otherwise>
+                    </c:choose>
                 </c:forEach>
             </select>
             <div id="validationServerCategoryFeedback" class="invalid-feedback">
