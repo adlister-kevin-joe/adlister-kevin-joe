@@ -14,13 +14,16 @@
     <form action="/myads" method="post">
 
     <c:forEach var="ad" items="${ads}">
-        <div class="col-md-6">
-            <h2><c:out value="${ad.title}" /></h2>
-            <p><c:out value="${ad.description}" /></p>
-            <p><c:out value="${ad.category}" /></p>
-            <p><c:out value="${ad.tags}" /></p>
-            <button type="submit" name="button" class="btn btn-outline-secondary" value="edit${ad.id}" >Edit</button>
-            <button type="submit" name="button" class="btn btn-outline-secondary" value="delete${ad.id}">Delete</button>
+
+        <div class="card m-5" style="width: 22rem;">
+            <div class="card-body">
+                <h2><c:out value="${ad.title}" /></h2>
+                <p><c:out value="${ad.description}" /></p>
+                <p><c:out value="${ad.category}" /></p>
+                <p><c:out value="${ad.tags}" /></p>
+                <button type="submit" name="button" class="btn btn-outline-secondary" value="edit${ad.id}" >Edit</button>
+                <button type="submit" name="button" class="btn btn-outline-secondary" value="delete${ad.id}">Delete</button>
+            </div>
         </div>
     </c:forEach>
     </form>

@@ -25,7 +25,7 @@ public class EditAdServlet extends HttpServlet {
         String[] tagsArray = tagsString.split(",");
         List<Tag> tags = new ArrayList<>();
         for (String string : tagsArray) {
-            Tag newTag = new Tag(string);
+            Tag newTag = new Tag(string.trim());
             tags.add(newTag);
         }
 
