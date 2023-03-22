@@ -28,6 +28,14 @@ public class Ad {
         this.tags = tags;
     }
 
+    public Ad(long id, long userId, String title, String description, long categoryId) {
+        this.id = id;
+        this.userId = userId;
+        this.title = title;
+        this.description = description;
+        this.categoryId = categoryId;
+    }
+
     public Ad(long userId, String title, String description, long categoryId, List<Tag> tags) {
         this.userId = userId;
         this.title = title;

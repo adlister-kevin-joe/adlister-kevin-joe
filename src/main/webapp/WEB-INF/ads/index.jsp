@@ -18,6 +18,7 @@
             <h2><a href="http://localhost:8080/ads/showad?id=${ad.id}&uid=${ad.userId}">${ad.title}</a></h2>
             <p><a href="http://localhost:8080/ads/showad?id=${ad.id}&uid=${ad.userId}">${ad.description}</a></p>
             <p><a href="http://localhost:8080/ads/showad?id=${ad.id}&uid=${ad.userId}">${ad.category}</a></p>
+            <p><a href="http://localhost:8080/ads/showad?id=${ad.id}&uid=${ad.userId}">${ad.tags}</a></p>
             <a href="http://localhost:8080/ads/showad?id=${ad.id}&uid=${ad.userId}">See Ad</a>
         </div>
         <br><br>
