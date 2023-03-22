@@ -15,6 +15,7 @@
             <p><u>Description</u></p>
             <p><c:out value="${sessionScope.viewAd.description}" /></p>
             <p><c:out value="${sessionScope.viewAd.category}" /></p>
+            <p><c:out value="${sessionScope.viewAd.tags}" /></p>
             <p>Seller: <c:out value="${sessionScope.userAd.username}" /></p>
             <p>Email: <c:out value="${sessionScope.userAd.email}" /></p>
         </div>

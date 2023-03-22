@@ -4,6 +4,30 @@
         background-color: lightgray;
     }
 
+    /* unvisited link */
+    a.NoDeco:link {
+        color: black;
+        text-decoration: none;
+    }
+
+    /* visited link */
+    a.NoDeco:visited {
+        color: black;
+        text-decoration: none;
+    }
+
+    /* mouse over link */
+    a.NoDeco:hover {
+        color: black;
+        text-decoration: none;
+    }
+
+    /* selected link */
+    a.NoDeco:active {
+        color: black;
+        text-decoration: none;
+    }
+
     .category {
         color: black;
         font-size: x-large;
