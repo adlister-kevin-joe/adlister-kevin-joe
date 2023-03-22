@@ -15,9 +15,9 @@
 
     <c:forEach var="ad" items="${ads}">
         <div class="col-md-6">
-            <h2>${ad.title}</h2>
-            <p>${ad.description}</p>
-            <p>${ad.category}</p>
+            <h2><c:out value="${ad.title}" /></h2>
+            <p><c:out value="${ad.description}" /></p>
+            <p><c:out value="${ad.category}" /></p>
             <button type="submit" name="button" class="btn btn-outline-secondary" value="edit${ad.id}" >Edit</button>
             <button type="submit" name="button" class="btn btn-outline-secondary" value="delete${ad.id}">Delete</button>
         </div>
