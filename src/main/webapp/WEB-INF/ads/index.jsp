@@ -13,15 +13,20 @@
 <div class="container">
     <h1>Here Are all the ads!</h1>
 
+
+
     <c:forEach var="ad" items="${ads}">
-        <div class="col-md-6">
-            <h2><a class="NoDeco" href="http://localhost:8080/ads/showad?id=${ad.id}&uid=${ad.userId}"><c:out value="${ad.title}" /></a></h2>
-            <p><a class="NoDeco" href="http://localhost:8080/ads/showad?id=${ad.id}&uid=${ad.userId}"><c:out value="${ad.description}" /></a></p>
-            <p><a class="NoDeco" href="http://localhost:8080/ads/showad?id=${ad.id}&uid=${ad.userId}"><c:out value="${ad.category}" /></a></p>
-            <p><a class="NoDeco" href="http://localhost:8080/ads/showad?id=${ad.id}&uid=${ad.userId}"><c:out value="${ad.tags}" /></a></p>
-            <a href="http://localhost:8080/ads/showad?id=${ad.id}&uid=${ad.userId}">See Ad</a>
+        <div class="card" style="width: 22rem;">
+            <div class="card-body">
+<%--                <div class="col-md-6">--%>
+                    <h5 class="card-title"><a class="NoDeco" href="http://localhost:8080/ads/showad?id=${ad.id}&uid=${ad.userId}"><c:out value="${ad.title}" /></a></h5>
+                    <p class="card-text"><a class="NoDeco" href="http://localhost:8080/ads/showad?id=${ad.id}&uid=${ad.userId}"><c:out value="${ad.description}" /></a></p>
+                    <p class="card-text"><a class="NoDeco" href="http://localhost:8080/ads/showad?id=${ad.id}&uid=${ad.userId}"><c:out value="${ad.category}" /></a></p>
+                    <p class="card-subtitle mb-2 text-muted"><a class="NoDecoTags" href="http://localhost:8080/ads/showad?id=${ad.id}&uid=${ad.userId}"><c:out value="${ad.tags}" /></a></p>
+                    <a  class="card-link" href="http://localhost:8080/ads/showad?id=${ad.id}&uid=${ad.userId}">See Ad</a>
+<%--                </div>--%>
+            </div>
         </div>
-        <br><br>
     </c:forEach>
 
 </div>
