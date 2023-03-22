@@ -117,9 +117,11 @@ public class MySQLAdsDao implements Ads {
     public List<Ad> searchForAds(String searchInput) {
         PreparedStatement stmt = null;
         try {
-            stmt = connection.prepareStatement("SELECT a.ad_id, a.user_id, a.title, a.description, a.category_id, c.category FROM ymir_joe.ads as a INNER JOIN ymir_joe.categories AS c ON a.category_id = c.category_id WHERE a.title LIKE ? OR a.description LIKE ?");
+            stmt = connection.prepareStatement("SELECT a.ad_id, a.user_id, a.title, a.description, a.category_id, c.category, at.tag_id, t.tag FROM ads as a INNER JOIN categories AS c ON a.category_id = c.category_id INNER JOIN ad_tag AS at on a.ad_id = at.ad_id INNER JOIN tags AS t on at.tag_id = t.tag_id WHERE a.title LIKE ? OR a.description LIKE ? OR t.tag LIKE ? GROUP BY a.ad_id");
+//            stmt = connection.prepareStatement("SELECT a.ad_id, a.user_id, a.title, a.description, a.category_id, c.category FROM ymir_joe.ads as a INNER JOIN ymir_joe.categories AS c ON a.category_id = c.category_id WHERE a.title LIKE ? OR a.description LIKE ?");
             stmt.setString(1, "%" + searchInput + "%");
             stmt.setString(2, "%" + searchInput + "%");
+            stmt.setString(3, "%" + searchInput + "%");
             ResultSet rs = stmt.executeQuery();
             return createAdsFromResults(rs);
         } catch (SQLException e) {
