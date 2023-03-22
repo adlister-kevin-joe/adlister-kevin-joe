@@ -40,6 +40,9 @@ public class UpdatePasswordServlet extends HttpServlet {
 
         if (!updatedPasswordMatchesConfirmedPassword) {
             request.getSession().setAttribute("passwordmismatch", "is-invalid");
+        }
+
+        if (!correctOldPassword || !updatedPasswordMatchesConfirmedPassword) {
             response.sendRedirect("/profile");
             return;
         }
