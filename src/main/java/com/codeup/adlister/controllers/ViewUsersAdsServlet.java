@@ -33,6 +33,7 @@ public class ViewUsersAdsServlet extends HttpServlet {
         String adID = buttonClicked.replace("edit", "").replace("delete", "");
 
         if (buttonClicked.contains("edit")) {
+            System.out.println(adID);
             Ad ad = DaoFactory.getAdsDao().findByAdId(adID);
             request.setAttribute("categories", DaoFactory.getCategoriesDao().all());
             request.getSession().setAttribute("editAd", ad);
