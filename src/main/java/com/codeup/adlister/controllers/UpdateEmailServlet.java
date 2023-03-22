@@ -3,6 +3,8 @@ package com.codeup.adlister.controllers;
 import com.codeup.adlister.dao.DaoFactory;
 import com.codeup.adlister.models.User;
 import com.codeup.adlister.util.Password;
+import com.codeup.adlister.util.Validate;
+
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -19,8 +21,18 @@ public class UpdateEmailServlet extends HttpServlet {
             response.sendRedirect("/login");
         }
 
+        session.removeAttribute("invalidemail");
+
         User currentUser = (User) session.getAttribute("user");
         String formEmail = request.getParameter("form-email");
+
+        boolean isNotValidEmail = !Validate.isValid(formEmail);
+
+        if (isNotValidEmail) {
+            session.setAttribute("invalidemail", "is-invalid");
+            response.sendRedirect("/profile");
+            return;
+        }
 
 
 

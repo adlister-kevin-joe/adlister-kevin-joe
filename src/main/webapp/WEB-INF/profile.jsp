@@ -45,8 +45,8 @@
                     <h5 class="card-header">Account</h5>
                     <div class="card-body">
 
-                        <div class="mb-3 w-50 ms-5">
-                            <div class="input-group mb-3">
+                        <div class="mb-3 w-75 ms-5 d-flex justify-content-between">
+                            <div class="input-group mb-3 w-50">
                                 <span class="input-group-text">Username</span>
                                 <input type="text" class="form-control" value="${username}" disabled readonly>
                             </div>
@@ -57,8 +57,8 @@
                             </button>
                         </div>
 
-                        <div class="mb-3 w-50 ms-5">
-                            <div class="input-group mb-3">
+                        <div class="mb-3 w-75 ms-5 d-flex justify-content-between">
+                            <div class="input-group mb-3 w-50">
                                 <span class="input-group-text">Email</span>
                                 <input type="text" class="form-control" value="${email}" disabled readonly>
                             </div>
@@ -70,10 +70,18 @@
                         </div>
 
 
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                data-bs-target="#change-password-modal">
-                            Change Password
-                        </button>
+                        <div class="mb-3 w-75 ms-5 d-flex justify-content-between">
+                            <div class="input-group mb-3 w-50">
+                                <span class="input-group-text">Password</span>
+                                <input type="password" class="form-control" value="${password}" disabled>
+                            </div>
+
+                            <button type="button" class="btn btn-primary ms-5" data-bs-toggle="modal"
+                                    data-bs-target="#change-password-modal">
+                                Change Password
+                            </button>
+                        </div>
+
 
                     </div>
                 </div>

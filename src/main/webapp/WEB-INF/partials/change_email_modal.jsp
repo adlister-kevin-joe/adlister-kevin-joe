@@ -7,11 +7,16 @@
       </div>
       <div class="modal-body">
 
-        <form method="post" action="/profile/update/email">
-          <div class="mb-3">
-            <label for="account-page-email" class="form-label">Email</label>
-            <input name="form-email" value="${email}" type="text" class="form-control" id="account-page-email">
-          </div>
+          <form method="post" action="/profile/update/email">
+            <div class="mb-3">
+              <label for="account-page-email" class="form-label">Email</label>
+              <div class="input-group has-validation">
+                <input name="form-email" type="text" class="form-control ${invalidemail}" value="${email}" id="account-page-email" required>
+                <div class="invalid-feedback">
+                  Email is invalid.
+                </div>
+              </div>
+            </div>
 
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
