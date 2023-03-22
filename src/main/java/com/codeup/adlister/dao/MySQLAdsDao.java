@@ -26,13 +26,13 @@ public class MySQLAdsDao implements Ads {
 
     @Override
     public Ad findByAdId(String id) {
-        String query = "SELECT * FROM ymir_joe.ads as a INNER JOIN ymir_joe.categories AS c ON a.category_id = c.category_id WHERE ad_id = ? LIMIT 1";
+        String query = "SELECT a.ad_id, a.user_id, a.title, a.description, a.category_id, c.category, at.tag_id, t.tag FROM ads as a INNER JOIN categories AS c ON a.category_id = c.category_id INNER JOIN ad_tag AS at on a.ad_id = at.ad_id INNER JOIN tags AS t on at.tag_id = t.tag_id WHERE a.ad_id = ? GROUP BY a.ad_id LIMIT 1";
         try {
             PreparedStatement stmt = connection.prepareStatement(query);
             stmt.setString(1, id);
             ResultSet rs = stmt.executeQuery();
-            List<Tag> tags = extractTags(rs);
             rs.next();
+            List<Tag> tags = extractTags(rs);
             return extractAd(rs, tags);
         } catch (SQLException e) {
             throw new RuntimeException("Error finding a ad by id", e);
@@ -97,6 +97,10 @@ public class MySQLAdsDao implements Ads {
 //            ResultSet rs = stmt.getGeneratedKeys();
 //            rs.next();
             return null;
+
+            ResultSet rs = stmt.getGeneratedKeys();
+            rs.next();
+            return rs.getLong(1);
         } catch (SQLException e) {
             throw new RuntimeException("Error updating an ad.", e);
         }
@@ -104,7 +108,7 @@ public class MySQLAdsDao implements Ads {
 
     @Override
     public Ad deleteByAdId(String id) {
-        String query = "DELETE FROM ymir_joe.ads WHERE ad_id = ?";
+        String query = "DELETE FROM ymir_joe.ads WHERE ad_id = ?;";
         try {
             PreparedStatement stmt = connection.prepareStatement(query);
             stmt.setString(1, id);

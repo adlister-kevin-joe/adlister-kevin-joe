@@ -63,7 +63,7 @@
         <div class="col-md-4 w-100">
             <label for="validationServerTag" class="form-label">Tag (Separate with commas)</label>
             <div class="input-group has-validation w-100">
-                <input name="tags" type="text" class="input-group w-100 form-control" value="${sessionScope.stickyTag}" id="validationServerTag" required>
+                <input name="tags" type="text" class="input-group w-100 form-control" value="${ssessionScope.editAd.tags}" id="validationServerTag" required>
                 <div class="invalid-feedback">
                     Please type in a tag.
                 </div>
