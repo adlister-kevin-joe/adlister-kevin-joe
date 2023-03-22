@@ -10,7 +10,6 @@
 
 <div class="container">
     <h1>Here is your ad ... </h1>
-
         <div class="col-md-6">
             <h2><c:out value="${sessionScope.viewAd.title}" /></h2>
             <p><u>Description</u></p>

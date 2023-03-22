@@ -45,10 +45,10 @@
                 <c:forEach var="category" items="${categories}">
                     <c:choose>
                         <c:when test="${category.categoryID == sessionScope.editAd.categoryId}">
-                            <option value="${category.categoryID}" selected>${category.category}</option>
+                            <option value="${category.categoryID}" selected><c:out value="${category.category}" /></option>
                         </c:when>
                         <c:otherwise>
-                            <option value="${category.categoryID}">${category.category}</option>
+                            <option value="${category.categoryID}"><c:out value="${category.category}" /></option>
                         </c:otherwise>
                     </c:choose>
                 </c:forEach>

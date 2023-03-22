@@ -41,7 +41,7 @@
                 <select class="form-select" name="categoryId" id="validationServerCategory" required>
                     <option selected disabled value="">Choose...</option>
                     <c:forEach var="category" items="${categories}">
-                        <option value="${category.categoryID}">${category.category}</option>
+                        <option value="${category.categoryID}"><c:out value="${category.category}" /></option>
                     </c:forEach>
                 </select>
                 <div id="validationServerCategoryFeedback" class="invalid-feedback">
