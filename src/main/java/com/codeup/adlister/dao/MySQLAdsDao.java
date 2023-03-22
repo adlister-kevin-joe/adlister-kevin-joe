@@ -2,8 +2,8 @@ package com.codeup.adlister.dao;
 
 import com.codeup.adlister.models.Ad;
 import com.codeup.adlister.models.Tag;
-import com.codeup.adlister.models.User;
 import com.mysql.cj.jdbc.Driver;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,9 +15,9 @@ public class MySQLAdsDao implements Ads {
         try {
             DriverManager.registerDriver(new Driver());
             connection = DriverManager.getConnection(
-                config.getUrl(),
-                config.getUser(),
-                config.getPassword()
+                    config.getUrl(),
+                    config.getUser(),
+                    config.getPassword()
             );
         } catch (SQLException e) {
             throw new RuntimeException("Error connecting to the database!", e);
@@ -31,8 +31,9 @@ public class MySQLAdsDao implements Ads {
             PreparedStatement stmt = connection.prepareStatement(query);
             stmt.setString(1, id);
             ResultSet rs = stmt.executeQuery();
+            List<Tag> tags = extractTags(rs);
             rs.next();
-            return extractAd(rs);
+            return extractAd(rs, tags);
         } catch (SQLException e) {
             throw new RuntimeException("Error finding a ad by id", e);
         }
@@ -43,9 +44,9 @@ public class MySQLAdsDao implements Ads {
     public List<Ad> all() {
         PreparedStatement stmt = null;
         try {
-            stmt = connection.prepareStatement("SELECT a.ad_id, a.user_id, a.title, a.description, a.category_id, c.category, at.tag_id, t.tag FROM ads as a INNER JOIN categories AS c ON a.category_id = c.category_id INNER JOIN ad_tag AS at on a.ad_id = at.ad_id INNER JOIN tags AS t on at.tag_id = t.tag_id");
-            ResultSet rs = stmt.executeQuery();
-            return createAdsFromResults(rs);
+            stmt = connection.prepareStatement("SELECT a.ad_id, a.user_id, a.title, a.description, a.category_id, c.category, at.tag_id, t.tag FROM ads as a INNER JOIN categories AS c ON a.category_id = c.category_id INNER JOIN ad_tag AS at on a.ad_id = at.ad_id INNER JOIN tags AS t on at.tag_id = t.tag_id GROUP BY a.ad_id");
+            ResultSet adsResultSet = stmt.executeQuery();
+            return createAdsFromResults(adsResultSet);
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException("Error retrieving all ads.", e);
@@ -142,23 +143,41 @@ public class MySQLAdsDao implements Ads {
         }
     }
 
-    private Ad extractAd(ResultSet rs) throws SQLException {
-        return new Ad(
-            rs.getLong("ad_id"),
-            rs.getLong("user_id"),
-            rs.getString("title"),
-            rs.getString("description"),
-            rs.getLong("category_id"),
-            rs.getString("category"),
-            (List<Tag>) rs.getArray("tag")
-        );
-    }
-
-    private List<Ad> createAdsFromResults(ResultSet rs) throws SQLException {
+    private List<Ad> createAdsFromResults(ResultSet adsResultSet) throws SQLException {
         List<Ad> ads = new ArrayList<>();
-        while (rs.next()) {
-            ads.add(extractAd(rs));
+        while (adsResultSet.next()) {
+            List<Tag> tags = extractTags(adsResultSet);
+            ads.add(extractAd(adsResultSet, tags));
         }
         return ads;
     }
+
+    private List<Tag> extractTags(ResultSet adsResultSet) throws SQLException {
+        List<String> tagsStringArray = new ArrayList<>();
+        List<Tag> tags = new ArrayList<>();
+        PreparedStatement stmt = connection.prepareStatement("SELECT t.tag FROM tags t INNER JOIN ad_tag at ON t.tag_id = at.tag_id INNER JOIN ads a ON at.ad_id = a.ad_id WHERE at.ad_id = ?");
+        stmt.setLong(1, adsResultSet.getLong("ad_id"));
+        ResultSet newResultSet = stmt.executeQuery();
+        while (newResultSet.next()) {
+            tagsStringArray.add(newResultSet.getString(1));
+        }
+        for (String string : tagsStringArray) {
+            Tag newTag = new Tag(string);
+            tags.add(newTag);
+        }
+        return tags;
+    }
+
+    private Ad extractAd(ResultSet adsResultSet, List<Tag> tags) throws SQLException {
+        return new Ad(
+                adsResultSet.getLong("ad_id"),
+                adsResultSet.getLong("user_id"),
+                adsResultSet.getString("title"),
+                adsResultSet.getString("description"),
+                adsResultSet.getLong("category_id"),
+                adsResultSet.getString("category"),
+                tags
+        );
+    }
+
 }
