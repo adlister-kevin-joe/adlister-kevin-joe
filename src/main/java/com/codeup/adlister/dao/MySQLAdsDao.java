@@ -88,19 +88,13 @@ public class MySQLAdsDao implements Ads {
     public Long updateAd(Ad ad) {
         try {
             String insertQuery = "UPDATE ymir_joe.ads SET title = ?, description = ?, category_id = ? WHERE ad_id = ?";
-            PreparedStatement stmt = connection.prepareStatement(insertQuery, Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement stmt = connection.prepareStatement(insertQuery);
             stmt.setString(1, ad.getTitle());
             stmt.setString(2, ad.getDescription());
             stmt.setLong(3, ad.getCategoryId());
             stmt.setLong(4, ad.getId());
             stmt.executeUpdate();
-//            ResultSet rs = stmt.getGeneratedKeys();
-//            rs.next();
-            return null;
-
-            ResultSet rs = stmt.getGeneratedKeys();
-            rs.next();
-            return rs.getLong(1);
+            return ad.getId();
         } catch (SQLException e) {
             throw new RuntimeException("Error updating an ad.", e);
         }

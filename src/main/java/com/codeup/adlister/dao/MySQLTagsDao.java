@@ -49,6 +49,17 @@ public class MySQLTagsDao implements Tags {
         }
     }
 
+    @Override
+    public void deletingAdTagRelationships(Long adId) {
+        try {
+            PreparedStatement stmt = connection.prepareStatement("DELETE FROM ymir_joe.ad_tag WHERE ad_id = ?");
+            stmt.setLong(1, adId);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Error deleting ad_tag relationships.", e);
+        }
+    }
+
     private Long getTagID(Tag tag) {
         try {
             PreparedStatement stmt = connection.prepareStatement("INSERT INTO tags (tag) VALUES (?) ON DUPLICATE KEY UPDATE tag_id=LAST_INSERT_ID(tag_id), tag = ?; SELECT LAST_INSERT_ID();", Statement.RETURN_GENERATED_KEYS);
