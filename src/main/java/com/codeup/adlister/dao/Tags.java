@@ -13,4 +13,6 @@ public interface Tags {
 
     void insertIntoAdTagTable(Ad ad, Long adId);
 
+    void deletingAdTagRelationships(Long adId);
+
 }

@@ -2,6 +2,7 @@ package com.codeup.adlister.controllers;
 
 import com.codeup.adlister.dao.DaoFactory;
 import com.codeup.adlister.models.Ad;
+import com.codeup.adlister.models.Tag;
 import com.codeup.adlister.models.User;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.List;
 
 @WebServlet(name = "controllers.ViewUsersAdsServlet", urlPatterns = "/myads")
 public class ViewUsersAdsServlet extends HttpServlet {
@@ -34,6 +36,16 @@ public class ViewUsersAdsServlet extends HttpServlet {
             Ad ad = DaoFactory.getAdsDao().findByAdId(adID);
             request.setAttribute("categories", DaoFactory.getCategoriesDao().all());
             request.getSession().setAttribute("editAd", ad);
+            List<Tag> tagsList = ad.getTags();
+            String tagsString = "";
+            for (Tag tag : tagsList) {
+                if (tagsList.indexOf(tag) != tagsList.size()-1) {
+                    tagsString += tag + ", ";
+                } else {
+                    tagsString += tag;
+                }
+            }
+            request.getSession().setAttribute("tags", tagsString);
             request.getRequestDispatcher("/WEB-INF/ads/editAd.jsp").forward(request, response);
         } else {
 //            DELETE FROM ymir_joe.ads WHERE ad_id = ?
