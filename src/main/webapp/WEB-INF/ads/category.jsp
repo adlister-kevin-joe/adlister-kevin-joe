@@ -16,9 +16,10 @@
 
   <c:forEach var="ad" items="${ads}">
     <div class="col-md-6">
-      <h2><a href="http://localhost:8080/ads/showad?id=<c:out value="${ad.id}" />&uid=<c:out value="${ad.userId}" />"><c:out value="${ad.title}" /></a></h2>
-      <p><a href="http://localhost:8080/ads/showad?id=<c:out value="${ad.id}" />&uid=<c:out value="${ad.userId}" />"><c:out value="${ad.description}" /></a></p>
-      <p><a href="http://localhost:8080/ads/showad?id=<c:out value="${ad.id}" />&uid=<c:out value="${ad.userId}" />"><c:out value="${ad.category}" /></a></p>
+      <h2><a class="NoDeco" href="http://localhost:8080/ads/showad?id=<c:out value="${ad.id}" />&uid=<c:out value="${ad.userId}" />"><c:out value="${ad.title}" /></a></h2>
+      <p><a class="NoDeco" href="http://localhost:8080/ads/showad?id=<c:out value="${ad.id}" />&uid=<c:out value="${ad.userId}" />"><c:out value="${ad.description}" /></a></p>
+      <p><a class="NoDeco" href="http://localhost:8080/ads/showad?id=<c:out value="${ad.id}" />&uid=<c:out value="${ad.userId}" />"><c:out value="${ad.category}" /></a></p>
+      <p><a class="NoDeco" href="http://localhost:8080/ads/showad?id=<c:out value="${ad.id}" />&uid=<c:out value="${ad.userId}" />"><c:out value="${ad.tags}" /></a></p>
       <a href="http://localhost:8080/ads/showad?id=<c:out value="${ad.id}" />&uid=<c:out value="${ad.userId}" />">See Ad</a>
     </div>
   </c:forEach>
